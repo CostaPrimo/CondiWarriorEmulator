@@ -71,11 +71,13 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
    */
   def relic_of_the_fractal(): Unit = {
     if(getPlayer.getFractalCd == 0.0) {
+
       var bleeding_count = 0
       for (condition <- getTarget.getConditions) {
         if (condition.isInstanceOf[Bleeding]) bleeding_count += 1
       }
-      if(fractal_bleeding_threshold >= bleeding_count) {
+
+      if(fractal_bleeding_threshold <= bleeding_count) {
         val conditions = createBurning(fractal_burning_dur, fractal_burning_amount)
         getTarget.add_conditions(
           List[Condition](

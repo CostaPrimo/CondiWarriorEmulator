@@ -6,11 +6,12 @@ object CondiWarriorTest {
 
   var uut: CondiWarrior = null
 
-  def main(args: Array[String]): Unit = {
+  def runWarriorTests(): Unit = {
     testFurious()
   }
 
-  def testFurious(): Unit = {
+  private def testFurious(): Unit = {
+    println("Running Furious Test")
     uut = new CondiWarrior(0, 0, 0, 0, 0)
     uut.add_furious_stack()
     uut.tick_warrior(1.0)
