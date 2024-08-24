@@ -15,7 +15,7 @@ class Torch extends Weapon(900, 72){
   def blaze_breaker(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, blaze_breaker_coeff).hit(getTarget, blaze_breaker_attacks)
+    val damage = new Direct_Hit(this, blaze_breaker_coeff).hit(blaze_breaker_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBurning(blaze_breaker_burning_dur, blaze_breaker_burning_amount))

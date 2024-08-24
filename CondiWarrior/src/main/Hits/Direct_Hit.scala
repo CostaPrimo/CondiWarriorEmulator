@@ -22,12 +22,12 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
    * @param attacks number of attacks
    * @return total damage done as a double
    */
-  def hit(target: Target, attacks: Int): Double = {
+  def hit(attacks: Int): Double = {
     val weaponStrength = Math.round(weapon.rollWeaponStrength)
     var damage = 0.0
 
     for(i <- 1 to attacks) {
-      damage += single_hit(target, weaponStrength)
+      damage += single_hit(weaponStrength)
     }
     damage
   }
@@ -39,20 +39,23 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
    * @param weaponStrength Weapon strength for the damage calculation
    * @return Damage done as a double
    */
-  def single_hit(target: Target, weaponStrength: Long): Double = {
+  def single_hit(weaponStrength: Long): Double = {
     val player = weapon.getPlayer
 
-    triggerDoomSigil(target)
+    triggerDoomSigil()
 
     if (rollCritical(player.getCriticalChance)) {
-      triggerCriticalHitEffects(target)
-      calculateDamage(weaponStrength, target) * player.getCriticalModifier * VULNERABILITY
-    } else calculateDamage(weaponStrength, target)  * VULNERABILITY
+      triggerCriticalHitEffects()
+      calculateDamage(weaponStrength) * player.getCriticalModifier * VULNERABILITY
+    } else calculateDamage(weaponStrength)  * VULNERABILITY
   }
 
-  private def triggerDoomSigil(target: Target): Unit = {
+  /**
+   * Trigger Doom Sigil if ready
+   */
+  private def triggerDoomSigil(): Unit = {
     if (weapon.getPlayer.getDoomReady) {
-      target.add_conditions(
+      weapon.getTarget.add_conditions(
         List[Condition](
           new Poison(doom_poison_dur * weapon.getPlayer.getConditionDuration),
           new Poison(doom_poison_dur * weapon.getPlayer.getConditionDuration),
@@ -63,6 +66,12 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
     }
   }
 
+  /**
+   * Check if target has bleeding condition, if so add 5% to critical chance.
+   * Else calculate critical chance normally.
+   * @param critical_chance
+   * @return Critical boolean
+   */
   private def rollCritical(critical_chance: Double): Boolean = {
     val conditions = weapon.getTarget.getConditions
     for (condition <- conditions) {
@@ -73,17 +82,23 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
     Math.random() * 100.0 <= critical_chance
   }
 
-  private def triggerCriticalHitEffects(target: Target): Unit = {
+  /**
+   * Trigger effects related to critical hits
+   */
+  private def triggerCriticalHitEffects(): Unit = {
     weapon.getPlayer.add_furious_stack()
     triggerKingOfFiresIcd()
 
-    rollBloodlustBleed(target)
-    rollFood(target)
+    rollBloodlustBleed()
+    rollFood()
 
-    triggerEarthSigil(target)
-    triggerTormentSigil(target)
+    triggerEarthSigil()
+    triggerTormentSigil()
   }
 
+  /**
+   * Handle King of Fires ICD
+   */
   private def triggerKingOfFiresIcd(): Unit = {
     if (weapon.getPlayer.getKingOfFiresCD == 0.0) {
       weapon.getPlayer.setKingOfFiresCD()
@@ -91,25 +106,35 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
     }
   }
 
-  private def rollBloodlustBleed(target: Target): Unit = {
+  /**
+   * Roll bloodlust bleed chance and attempt to trigger fractal relic
+   */
+  private def rollBloodlustBleed(): Unit = {
     if(Math.random() * 100.0 <= 33.0){
-      target.add_condition(
+      weapon.getTarget.add_condition(
         new Bleeding(3.0 * (weapon.getPlayer.getConditionDuration + 0.33))
       )
       weapon.relic_of_the_fractal()
     }
   }
 
-  private  def rollFood(target: Target): Unit = {
+  /**
+   * Roll ascended food lifesteal chance
+   */
+  private  def rollFood(): Unit = {
     if(Math.random() * 100.0 <= 66.0 && weapon.getPlayer.getFoodCd == 0.0) {
-      target.deal_strike_damage(325.0)
+      weapon.getTarget.deal_strike_damage(325.0)
       weapon.getPlayer.setFoodCd()
     }
   }
 
-  private def triggerEarthSigil(target: Target): Unit = {
-    if (weapon.getPlayer.getOnSword && weapon.getPlayer.getEarthCd == 0.0) {
-      target.add_condition(
+  /**
+   * Trigger earth sigil if on sword and sigil is off cooldown.
+   * Attempt to trigger relic of the fractal when applying bleeding.
+   */
+  private def triggerEarthSigil(): Unit = {
+    if (weapon.getPlayer.isOnSword && weapon.getPlayer.getEarthCd == 0.0) {
+      weapon.getTarget.add_condition(
         new Bleeding(6.0 * (weapon.getPlayer.getConditionDuration + 0.33))
       )
       weapon.getPlayer.setEarthCd()
@@ -117,9 +142,12 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
     }
   }
 
-  private def triggerTormentSigil(target: Target): Unit = {
-    if (!weapon.getPlayer.getOnSword && weapon.getPlayer.getTormentCd == 0.0) {
-      target.add_conditions(
+  /**
+   * Trigger Torment sigil if on longbow and sigil is off cooldown
+   */
+  private def triggerTormentSigil(): Unit = {
+    if (!weapon.getPlayer.isOnSword && weapon.getPlayer.getTormentCd == 0.0) {
+      weapon.getTarget.add_conditions(
         List[Condition](
           new Torment(5.0 * weapon.getPlayer.getConditionDuration),
           new Torment(5.0 * weapon.getPlayer.getConditionDuration)
@@ -129,6 +157,11 @@ class Direct_Hit(weapon: Weapon, coefficient: Double) {
     }
   }
 
-  private def calculateDamage(weaponStrength: Double, target: Target): Double = weaponStrength * weapon.getPlayer.getPower * coefficient / target.getArmour
+  /**
+   * Calculates damage based on the formula `WeaponStrength * power * coefficient / targetArmour`
+   * @param weaponStrength
+   * @return Damage dealt
+   */
+  private def calculateDamage(weaponStrength: Double): Double = weaponStrength * weapon.getPlayer.getPower * coefficient / weapon.getTarget.getArmour
 
 }

@@ -69,7 +69,7 @@ class Unarmed extends Weapon (690.5, 34.5){
   def shattering_blow(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, shattering_blow_coeff).hit(getTarget, shattering_blow_attacks)
+    val damage = new Direct_Hit(this, shattering_blow_coeff).hit(shattering_blow_attacks)
     getTarget.deal_strike_damage(damage)
 
     val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
@@ -87,7 +87,7 @@ class Unarmed extends Weapon (690.5, 34.5){
 
     if(getPlayer.hasActiveFireField) { getPlayer.setFireAura(5.0) }
 
-    val damage = new Direct_Hit(this, sundering_leap_coeff).hit(getTarget, sundering_leap_attacks)
+    val damage = new Direct_Hit(this, sundering_leap_coeff).hit(sundering_leap_attacks)
     getTarget.deal_strike_damage(damage)
 
     val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
@@ -109,7 +109,7 @@ class Unarmed extends Weapon (690.5, 34.5){
   def head_butt(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, head_butt_coeff).hit(getTarget, head_butt_attacks)
+    val damage = new Direct_Hit(this, head_butt_coeff).hit(head_butt_attacks)
     getTarget.deal_strike_damage(damage)
 
     val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
@@ -121,7 +121,7 @@ class Unarmed extends Weapon (690.5, 34.5){
   }
 
   private def unarmed_king_of_fires(): Unit = {
-    if(getPlayer.getOnSword){
+    if(getPlayer.isOnSword){
       sword.king_of_fires()
     } else {
       longbow.king_of_fires()
@@ -130,7 +130,7 @@ class Unarmed extends Weapon (690.5, 34.5){
 
   def swapWeapon(cast_time: Double): Unit = {
     tick_time(cast_time)
-    if (!getPlayer.getOnSword) {
+    if (!getPlayer.isOnSword) {
       geomancy()
       getPlayer.weapon_swap()
     } else {
@@ -144,7 +144,7 @@ class Unarmed extends Weapon (690.5, 34.5){
     getTarget.add_conditions(CONDITIONS)
     relic_of_the_fractal()
 
-    val damage = new Direct_Hit(this, geomancy_coeff).hit(getTarget, geomancy_attacks)
+    val damage = new Direct_Hit(this, geomancy_coeff).hit(geomancy_attacks)
     getTarget.deal_strike_damage(damage)
   }
 

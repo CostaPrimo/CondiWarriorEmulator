@@ -60,28 +60,32 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
   def king_of_fires(): Unit = {
     val CONDITIONS = createBurning(king_of_fires_burning_dur, king_of_fires_burning_amount)
     getTarget.add_conditions(CONDITIONS)
-    val damage = new Direct_Hit(this, king_of_fires_coeff).hit(getTarget, king_of_fires_attacks)
+    val damage = new Direct_Hit(this, king_of_fires_coeff).hit(king_of_fires_attacks)
     getPlayer.setFireAura(0.0)
 
     getTarget.deal_strike_damage(damage)
   }
 
+  /**
+   * Trigger Relic of the Fractal if the relic is off cooldown as sufficient bleeding is applied to the target.
+   */
   def relic_of_the_fractal(): Unit = {
-    var bleeding_count = 0
-    for(condition <- getTarget.getConditions) {
-      if(condition.isInstanceOf[Bleeding]) bleeding_count += 1
-    }
-
-    if(getPlayer.getFractalCd == 0.0 && fractal_bleeding_threshold <= bleeding_count) {
-      val conditions = createBurning(fractal_burning_dur, fractal_burning_amount)
-      getTarget.add_conditions(
-        List[Condition](
-          new Torment(fractal_torment_dur * condiDuration),
-          new Torment(fractal_torment_dur * condiDuration),
-          new Torment(fractal_torment_dur * condiDuration)
-        ) ::: conditions
-      )
-      getPlayer.setFractalCd()
+    if(getPlayer.getFractalCd == 0.0) {
+      var bleeding_count = 0
+      for (condition <- getTarget.getConditions) {
+        if (condition.isInstanceOf[Bleeding]) bleeding_count += 1
+      }
+      if(fractal_bleeding_threshold >= bleeding_count) {
+        val conditions = createBurning(fractal_burning_dur, fractal_burning_amount)
+        getTarget.add_conditions(
+          List[Condition](
+            new Torment(fractal_torment_dur * condiDuration),
+            new Torment(fractal_torment_dur * condiDuration),
+            new Torment(fractal_torment_dur * condiDuration)
+          ) ::: conditions
+        )
+        getPlayer.setFractalCd()
+      }
     }
   }
 

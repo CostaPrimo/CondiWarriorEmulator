@@ -43,7 +43,7 @@ class Flames_Of_War(weapon: Weapon, target: Target) extends Pulsing_Hit(weapon, 
   }
 
   def finalHit(): Unit = {
-    val damage = new Direct_Hit(weapon, flames_of_War_coeff).single_hit(target, weapon_strength)
+    val damage = new Direct_Hit(weapon, flames_of_War_coeff).single_hit(weapon_strength)
     target.deal_strike_damage(damage)
 
     target.add_conditions(

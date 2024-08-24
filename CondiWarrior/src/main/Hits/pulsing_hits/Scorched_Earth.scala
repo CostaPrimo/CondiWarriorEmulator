@@ -25,7 +25,7 @@ class Scorched_Earth(weapon: Weapon, target: Target) extends Pulsing_Hit(weapon,
   }
 
   override def trigger(): Unit = {
-    val damage = new Direct_Hit(weapon, scorched_earth_coeff).single_hit(target, weapon_strength) * burst_mastery
+    val damage = new Direct_Hit(weapon, scorched_earth_coeff).single_hit(weapon_strength) * burst_mastery
     target.deal_strike_damage(damage)
     target.add_condition(
       new Burning(scorched_earth_burning_dur * (weapon.getPlayer.getConditionDuration + 0.33))
