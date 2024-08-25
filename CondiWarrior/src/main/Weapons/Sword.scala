@@ -53,7 +53,7 @@ class Sword extends Weapon (1000, 50){
   def sever_artery(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, sever_artery_coeff).hit(getTarget, sever_artery_attacks)
+    val damage = new Direct_Hit(this, sever_artery_coeff).hit(sever_artery_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBleeding(sever_artery_bleeding_dur, sever_artery_bleeding_amount))
@@ -63,7 +63,7 @@ class Sword extends Weapon (1000, 50){
   def gash(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, gash_coeff).hit(getTarget, gash_attacks)
+    val damage = new Direct_Hit(this, gash_coeff).hit(gash_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBleeding(gash_bleeding_dur, gash_bleeding_amount))
@@ -73,7 +73,7 @@ class Sword extends Weapon (1000, 50){
   def hamstring(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, hamstring_coeff).hit(getTarget, hamstring_attacks)
+    val damage = new Direct_Hit(this, hamstring_coeff).hit(hamstring_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBleeding(hamstring_bleeding_dur, hamstring_bleeding_amount))
@@ -83,7 +83,7 @@ class Sword extends Weapon (1000, 50){
   def savage_leap(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, savage_leap_coeff).hit(getTarget, savage_leap_attacks)
+    val damage = new Direct_Hit(this, savage_leap_coeff).hit(savage_leap_attacks)
     getTarget.deal_strike_damage(damage)
 
     if(getPlayer.hasActiveFireField) {
@@ -95,12 +95,12 @@ class Sword extends Weapon (1000, 50){
     tick_time(cast_time)
 
     if(getTarget.getDamageTaken <= getTarget.getHealth / 2) {
-      val damage = new Direct_Hit(this, final_thrust_coeff).hit(getTarget, final_thrust_attacks)
+      val damage = new Direct_Hit(this, final_thrust_coeff).hit(final_thrust_attacks)
       getTarget.deal_strike_damage(damage)
 
       getTarget.add_conditions(createBleeding(final_thrust_bleeding_dur, final_thrust_bleeding_amount))
     } else {
-      val damage = new Direct_Hit(this, final_thrust_coeff_sub50).hit(getTarget, final_thrust_attacks)
+      val damage = new Direct_Hit(this, final_thrust_coeff_sub50).hit(final_thrust_attacks)
       getTarget.deal_strike_damage(damage)
 
       getTarget.add_conditions(createBleeding(final_thrust_bleeding_dur, final_thrust_bleeding_amount_sub50))
@@ -112,7 +112,7 @@ class Sword extends Weapon (1000, 50){
   def impale(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, impale_coeff).hit(getTarget, impale_attacks)
+    val damage = new Direct_Hit(this, impale_coeff).hit(impale_attacks)
     getTarget.deal_strike_damage(damage)
 
     val pulsing_Hit = new Impale(this, getTarget)
@@ -129,7 +129,7 @@ class Sword extends Weapon (1000, 50){
   def riposte(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, riposte_coeff).hit(getTarget, riposte_attacks)
+    val damage = new Direct_Hit(this, riposte_coeff).hit(riposte_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBleeding(riposte_bleeding_dur, riposte_bleeding_amount))
@@ -141,7 +141,7 @@ class Sword extends Weapon (1000, 50){
     for(i <- 1 to flaming_flurry_attacks){
       val toTick = duration/ flaming_flurry_attacks
       tick_time(toTick)
-      val damage = new Direct_Hit(this, flaming_flurry_coeff / flaming_flurry_attacks).single_hit(getTarget, weapon_strength) * burst_mastery
+      val damage = new Direct_Hit(this, flaming_flurry_coeff / flaming_flurry_attacks).single_hit(weapon_strength) * burst_mastery
       getTarget.deal_strike_damage(damage)
       getTarget.add_conditions(createBurning(flaming_flurry_burning_dur, flaming_flurry_burning_amount))
     }

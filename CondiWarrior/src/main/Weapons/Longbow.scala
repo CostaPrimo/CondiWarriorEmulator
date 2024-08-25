@@ -38,7 +38,7 @@ class Longbow extends Weapon(1050, 84){
     var CONDITIONS = List[Condition]()
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, dual_shot_coeff).hit(getTarget, dual_shot_attacks)
+    val damage = new Direct_Hit(this, dual_shot_coeff).hit(dual_shot_attacks)
     getTarget.deal_strike_damage(damage)
 
     if(getPlayer.hasActiveFireField) {
@@ -55,7 +55,7 @@ class Longbow extends Weapon(1050, 84){
 
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, fan_of_fire_coeff).hit(getTarget, fan_of_fire_attacks)
+    val damage = new Direct_Hit(this, fan_of_fire_coeff).hit(fan_of_fire_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(CONDITIONS)
@@ -64,7 +64,7 @@ class Longbow extends Weapon(1050, 84){
   def arcing_arrow(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, arcing_arrow_coeff).hit(getTarget, arcing_arrow_attacks)
+    val damage = new Direct_Hit(this, arcing_arrow_coeff).hit(arcing_arrow_attacks)
     getTarget.deal_strike_damage(damage)
 
     getTarget.add_conditions(createBurning(arcing_arrow_burning_dur, arcing_arrow_burning_amount))
@@ -75,7 +75,7 @@ class Longbow extends Weapon(1050, 84){
 
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, pin_down_coeff).hit(getTarget, pin_down_attacks)
+    val damage = new Direct_Hit(this, pin_down_coeff).hit(pin_down_attacks)
     getTarget.deal_strike_damage(damage)
 
     if(getPlayer.hasActiveFireField) {

@@ -37,7 +37,7 @@ class CondiWarrior(precision: Int, ferocity: Int, conditionDamage: Int, expertis
     this.berserkDuration = 20.0
   }
 
-  def getOnSword: Boolean = onSword
+  def isOnSword: Boolean = onSword
 
   def getFuriousSurge: List[Double] = furious_surge_stacks
 
