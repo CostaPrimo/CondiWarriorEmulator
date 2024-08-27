@@ -3,6 +3,8 @@ package CondiWarrior
 import CondiWarrior.src.main.Weapons.{Longbow, Sword, Torch, Unarmed, Weapon}
 import CondiWarrior.src.main.Entities.{CondiWarrior, Target}
 
+import java.io.{BufferedWriter, FileWriter}
+
 object test1 {
 
   var condiWarrior: CondiWarrior = null
@@ -34,6 +36,16 @@ object test1 {
       dps = (target.getDamageTaken / target.getTime) :: dps
 
     }
+
+    val fsStream: FileWriter = new FileWriter("test.csv", true)
+    val out: BufferedWriter = new BufferedWriter(fsStream)
+
+    for(i <- dps.indices) {
+      out.write(dps(i).toString)
+      out.newLine()
+    }
+    out.close()
+
     printResults(damage, times, dps)
   }
 

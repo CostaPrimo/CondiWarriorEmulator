@@ -46,8 +46,6 @@ class Sword extends Weapon (1000, 50){
   private val flaming_flurry_burning_amount = 1
 
   private val burst_mastery = 1.07
-  private val burning_finisher_dur = 1.0
-  private val burning_finisher_amount = 1
   //-----------------------------------
 
   def sever_artery(cast_time: Double): Unit = {
@@ -119,11 +117,7 @@ class Sword extends Weapon (1000, 50){
     pulsing_Hit.initialHit()
     getPlayer.addPulsingHit(pulsing_Hit)
 
-    if (getPlayer.hasActiveFireField) {
-      if (projectile_finisher(impale_finisher_chance)) {
-        getTarget.add_conditions(createBurning(burning_finisher_dur, burning_finisher_amount))
-      }
-    }
+    projectile_finisher(impale_finisher_chance)
   }
 
   def riposte(cast_time: Double): Unit = {
@@ -152,7 +146,4 @@ class Sword extends Weapon (1000, 50){
 
   }
 
-  private def projectile_finisher(chance: Int): Boolean = {
-    chance >= Math.random() * 100.0
-  }
 }
