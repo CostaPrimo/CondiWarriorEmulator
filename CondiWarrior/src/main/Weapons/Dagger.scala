@@ -83,7 +83,7 @@ class Dagger extends Weapon (1000, 30){
   def wastrels_ruin(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, wastrels_ruin_coeff * wastrels_ruin_coeff_enemynotusingskill).hit(arcing_arrow_attacks)
+    val damage = new Direct_Hit(this, wastrels_ruin_coeff * wastrels_ruin_coeff_enemynotusingskill).hit(wastrels_ruin_attacks)
     getTarget.deal_strike_damage(damage)
 
   }
