@@ -26,7 +26,7 @@ class Dagger extends Weapon (1000, 30){
   private val wastrels_ruin_attacks = 1
   private val wastrels_ruin_enhanced_coeff = 2.0
 
-  private val bladestorm_coeff = 0.5
+  private val bladestorm_coeff = 3.5
   private val bladestorm_attacks = 7
 
   private val breaching_strike_coeff = 2.5
