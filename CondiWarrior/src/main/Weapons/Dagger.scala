@@ -24,25 +24,25 @@ class Dagger extends Weapon (1000, 30){
 
   private val wastrels_ruin_coeff = 1.5
   private val wastrels_ruin_attacks = 1
-  private val wastrels_ruin_enhanced_coeff = 2.0
+  private val wastrels_ruin_enhanced_modifier = 2.0
 
   private val bladestorm_coeff = 3.5
   private val bladestorm_attacks = 7
 
   private val breaching_strike_coeff = 2.5
   private val breaching_strike_attacks = 1
-  private val breaching_strike_enhanced_coeff = 1.5
+  private val breaching_strike_enhanced_modifier = 1.5
 
   private val slicing_maelstrom_coeff = 2.5
   private val slicing_maelstrom_attacks = 1
-  private val slicing_maelstrom_enhanced_coeff = 1.5
+  private val slicing_maelstrom_enhanced_modifier = 1.5
 
   //----------------------------------
 
   def precise_cut(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    TODO: // Needs precise_cut_crit_modifier multiplied if crit
+    //TODO: Needs precise_cut_crit_modifier multiplied if crit
     val damage = new Direct_Hit(this, precise_cut_coeff).hit(precise_cut_attacks)
     getTarget.deal_strike_damage(damage)
   }
@@ -50,7 +50,7 @@ class Dagger extends Weapon (1000, 30){
   def focused_slash(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    TODO: // Needs focused_slash_crit_modifier multiplied if crit
+    //TODO: Needs focused_slash_crit_modifier multiplied if crit
     val damage = new Direct_Hit(this, focused_slash_coeff).hit(focused_slash_attacks)
     getTarget.deal_strike_damage(damage)
   }
@@ -76,7 +76,7 @@ class Dagger extends Weapon (1000, 30){
   def disrupting_stab(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    TODO: // Add a CC trigger
+    //TODO: Add a CC trigger
     val damage = new Direct_Hit(this, disrupting_stab_coeff).hit(disrupting_stab_attacks)
     getTarget.deal_strike_damage(damage)
   }
@@ -84,7 +84,7 @@ class Dagger extends Weapon (1000, 30){
   def wastrels_ruin(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, wastrels_ruin_coeff).hit(wastrels_ruin_attacks) * wastrels_ruin_enhanced_coeff
+    val damage = new Direct_Hit(this, wastrels_ruin_coeff).hit(wastrels_ruin_attacks) * wastrels_ruin_enhanced_modifier
     getTarget.deal_strike_damage(damage)
 
   }
@@ -102,7 +102,7 @@ class Dagger extends Weapon (1000, 30){
   def breaching_strike(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, breaching_strike_coeff).hit(breaching_strike_attacks) * breaching_strike_enhanced_coeff
+    val damage = new Direct_Hit(this, breaching_strike_coeff).hit(breaching_strike_attacks) * breaching_strike_enhanced_modifier
     getTarget.deal_strike_damage(damage)
 
     if(getPlayer.hasActiveFireField) {
@@ -113,7 +113,7 @@ class Dagger extends Weapon (1000, 30){
   def slicing_maelstrom(cast_time: Double): Unit = {
     tick_time(cast_time)
 
-    val damage = new Direct_Hit(this, slicing_maelstrom_coeff).hit(slicing_maelstrom_attacks) * slicing_maelstrom_enhanced_coeff
+    val damage = new Direct_Hit(this, slicing_maelstrom_coeff).hit(slicing_maelstrom_attacks) * slicing_maelstrom_enhanced_modifier
     getTarget.deal_strike_damage(damage)
   }
 }
