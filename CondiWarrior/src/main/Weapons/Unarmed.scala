@@ -55,15 +55,9 @@ class Unarmed extends Weapon (690.5, 34.5){
   }
 
   def blood_reckoning(cast_time: Double): Unit = {
-    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
-
     tick_time(cast_time)
 
-    getTarget.add_conditions(LAST_BLAZE)
-
-    if(getPlayer.getFireAura > 0.0){ unarmed_king_of_fires()}
-
-    if(getPlayer.getInBerserk) { getPlayer.add_berserk(blood_reckoning_berserk_increase) }
+    handleRageEffects(blood_reckoning_berserk_increase)
   }
 
   def shattering_blow(cast_time: Double): Unit = {
@@ -72,14 +66,11 @@ class Unarmed extends Weapon (690.5, 34.5){
     val damage = new Direct_Hit(this, shattering_blow_coeff).hit(shattering_blow_attacks)
     getTarget.deal_strike_damage(damage)
 
-    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
     val BLEEDING = createBleeding(shattering_blow_bleeding_dur, shattering_blow_bleeding_amount)
-    getTarget.add_conditions(LAST_BLAZE ::: BLEEDING)
+    getTarget.add_conditions(BLEEDING)
     relic_of_the_fractal()
 
-    if(getPlayer.getFireAura > 0.0){ unarmed_king_of_fires()}
-
-    if(getPlayer.getInBerserk) { getPlayer.add_berserk(shattering_blow_berserk_increase) }
+    handleRageEffects(shattering_blow_berserk_increase)
   }
 
   def sundering_leap(cast_time: Double): Unit = {
@@ -90,20 +81,11 @@ class Unarmed extends Weapon (690.5, 34.5){
     val damage = new Direct_Hit(this, sundering_leap_coeff).hit(sundering_leap_attacks)
     getTarget.deal_strike_damage(damage)
 
-    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
-    if(getPlayer.getFireAura>0.0){ unarmed_king_of_fires()}
-    getTarget.add_conditions(LAST_BLAZE)
-
-    if(getPlayer.getInBerserk) { getPlayer.add_berserk(sundering_leap_berserk_increase) }
+    handleRageEffects(sundering_leap_berserk_increase)
   }
 
   def outrage(): Unit = {
-    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
-    getTarget.add_conditions(LAST_BLAZE)
-
-    if(getPlayer.getFireAura > 0.0){ unarmed_king_of_fires()}
-
-    if(getPlayer.getInBerserk) { getPlayer.add_berserk(outrage_berserk_increase) }
+    handleRageEffects(outrage_berserk_increase)
   }
 
   def head_butt(cast_time: Double): Unit = {
@@ -112,20 +94,7 @@ class Unarmed extends Weapon (690.5, 34.5){
     val damage = new Direct_Hit(this, head_butt_coeff).hit(head_butt_attacks)
     getTarget.deal_strike_damage(damage)
 
-    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
-    getTarget.add_conditions(LAST_BLAZE)
-
-    if (getPlayer.getFireAura > 0.0) { unarmed_king_of_fires() }
-
-    if(getPlayer.getInBerserk) { getPlayer.add_berserk(head_butt_berserk_increase) }
-  }
-
-  private def unarmed_king_of_fires(): Unit = {
-    if(getPlayer.isOnSword){
-      sword.king_of_fires()
-    } else {
-      longbow.king_of_fires()
-    }
+    handleRageEffects(head_butt_berserk_increase)
   }
 
   def swapWeapon(cast_time: Double): Unit = {
@@ -150,6 +119,27 @@ class Unarmed extends Weapon (690.5, 34.5){
 
   def wait(duration: Double): Unit = {
     tick_time(duration)
+  }
+
+  private def handleRageEffects(berserk_increase: Double): Unit = {
+    val LAST_BLAZE = createBurning(LAST_BLAZE_BURNING_DUR, LAST_BLAZE_BURNING_AMOUNT)
+    getTarget.add_conditions(LAST_BLAZE)
+
+    if (getPlayer.getFireAura > 0.0) {
+      unarmed_king_of_fires()
+    }
+
+    if (getPlayer.getInBerserk) {
+      getPlayer.add_berserk(berserk_increase)
+    }
+  }
+
+  private def unarmed_king_of_fires(): Unit = {
+    if (getPlayer.isOnSword) {
+      sword.king_of_fires()
+    } else {
+      longbow.king_of_fires()
+    }
   }
 
 }

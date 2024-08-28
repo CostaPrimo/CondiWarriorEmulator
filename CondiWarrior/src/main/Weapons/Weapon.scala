@@ -18,6 +18,9 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
   private val fractal_burning_dur = 8.0
   private val fractal_burning_amount = 2
   private val fractal_torment_dur = 8.0
+
+  private val burning_finisher_dur = 1.0
+  private val burning_finisher_amount = 1
   //-----------------------------------
 
   def setPlayer(condiWarrior: CondiWarrior): Unit= {
@@ -91,11 +94,19 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
     }
   }
 
-  private def bleedingDuration(): Double = {
-    burningDuration();
+  def projectile_finisher(finisher_chance: Int): Unit = {
+    if(getPlayer.hasActiveFireField) {
+      if(roll_projectile_finisher(finisher_chance)) {
+        getTarget.add_conditions(createBurning(burning_finisher_dur, burning_finisher_amount))
+      }
+    }
   }
 
-  private def burningDuration(): Double = {
+  private def bleedingDuration: Double = {
+    burningDuration;
+  }
+
+  private def burningDuration: Double = {
     getPlayer.getConditionDuration + 0.33
   }
 
@@ -103,6 +114,8 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
     getPlayer.getConditionDuration
   }
 
-
+  private def roll_projectile_finisher(chance: Int): Boolean = {
+    chance >= Math.random() * 100.0
+  }
 
 }

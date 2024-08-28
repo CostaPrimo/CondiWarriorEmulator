@@ -28,23 +28,18 @@ class Longbow extends Weapon(1050, 84){
   private val pin_down_bleeding_dur = 12.0
   private val pin_down_bleeding_amount = 6
   private val pin_down_finisher_chance = 100
-
-  private val burning_finisher_dur = 1.0
-  private val burning_finisher_amount = 1
   //-----------------------------------
 
   def dual_shot(cast_time: Double): Unit = {
-    //var CONDITIONS = createBurning(dual_shot_burning_dur, dual_shot_burning_amount)
-    var CONDITIONS = List[Condition]()
+    //val CONDITIONS = createBurning(dual_shot_burning_dur, dual_shot_burning_amount)
+    val CONDITIONS = List[Condition]()
     tick_time(cast_time)
 
     val damage = new Direct_Hit(this, dual_shot_coeff).hit(dual_shot_attacks)
     getTarget.deal_strike_damage(damage)
 
-    if(getPlayer.hasActiveFireField) {
-      for(i <- 1 to 2){
-        if(projectile_finisher(dual_shot_finisher_chance)){ CONDITIONS = createBurning(burning_finisher_dur, burning_finisher_amount) ::: CONDITIONS }
-      }
+    for(i <- 1 to dual_shot_attacks){
+      projectile_finisher(dual_shot_finisher_chance)
     }
 
     getTarget.add_conditions(CONDITIONS)
@@ -78,9 +73,7 @@ class Longbow extends Weapon(1050, 84){
     val damage = new Direct_Hit(this, pin_down_coeff).hit(pin_down_attacks)
     getTarget.deal_strike_damage(damage)
 
-    if(getPlayer.hasActiveFireField) {
-      if(projectile_finisher(pin_down_finisher_chance)) { CONDITIONS = createBurning(burning_finisher_dur, burning_finisher_amount) ::: CONDITIONS}
-    }
+    projectile_finisher(pin_down_finisher_chance)
 
     getTarget.add_conditions(CONDITIONS)
     relic_of_the_fractal()
@@ -96,10 +89,6 @@ class Longbow extends Weapon(1050, 84){
     if(getPlayer.getFireAura > 0.0) {
       king_of_fires()
     }
-  }
-
-  private def projectile_finisher(chance: Int): Boolean = {
-    chance >= Math.random() * 100.0
   }
 
 }
