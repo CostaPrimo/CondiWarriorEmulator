@@ -1,6 +1,7 @@
 package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.Direct_Hit
+import CondiWarrior.src.main.Hits.pulsing_hits.Bladetrail
 
 class Greatsword extends Weapon(1100, 55) {
   //CONFIG ----------------------------
@@ -13,7 +14,6 @@ class Greatsword extends Weapon(1100, 55) {
   private val brutal_strike_coeff = 1.5
   private val brutal_strike_attacks = 1
 
-  // TODO: Figure out how tf weaponstrength works with this
   private val hundred_blades_coeff = 0.5775
   private val hundreds_blades_attacks = 8
   private val hundred_blades_final_coeff = 1.21
@@ -23,18 +23,11 @@ class Greatsword extends Weapon(1100, 55) {
   private val whirlwind_attack_attacks = 4
   private val whirlwind_attack_finisher_chance = 100
 
-  private val bladetrail_coeff = 1.5
-  private val bladetrail_attacks = 2
-  private val bladetrail_finisher_chance = 100
-
   private val rush_coeff = 2.5
   private val rush_attacks = 1
 
   private val arc_divider_coeff = 3.5
   private val arc_divider_attacks = 1
-
-  private val burning_finisher_dur = 1.0
-  private val burning_finisher_amount = 1
   //-----------------------------------
 
   def greatsword_swing(cast_time: Double): Unit = {
@@ -58,9 +51,17 @@ class Greatsword extends Weapon(1100, 55) {
     getTarget.deal_strike_damage(damage)
   }
 
-  // TODO
   def hundred_blades(cast_time: Double): Unit = {
-    tick_time(cast_time)
+    val weapon_strength = Math.round(this.rollWeaponStrength)
+
+    for (i <- 1 to hundreds_blades_attacks) {
+      tick_time(cast_time / (hundreds_blades_attacks + hundred_blades_final_attacks))
+      val damage = new Direct_Hit(this, hundred_blades_coeff).single_hit(weapon_strength)
+      getTarget.deal_strike_damage(damage)
+    }
+    tick_time(cast_time / (hundreds_blades_attacks + hundred_blades_final_attacks))
+    val damage = new Direct_Hit(this, hundred_blades_final_coeff).single_hit(weapon_strength)
+    getTarget.deal_strike_damage(damage)
   }
 
   def whirlwind_attack(cast_time: Double): Unit = {
@@ -75,16 +76,13 @@ class Greatsword extends Weapon(1100, 55) {
     }
   }
 
-  // TODO
   def bladetrail(cast_time: Double): Unit = {
     tick_time(cast_time)
-    val weapon_strength = Math.round(this.rollWeaponStrength)
 
-    val damage = new Direct_Hit(this, bladetrail_coeff).single_hit(weapon_strength)
-    projectile_finisher(bladetrail_finisher_chance)
+    val pulsing_hit = new Bladetrail(this, getTarget)
+    pulsing_hit.trigger()
+    getPlayer.addPulsingHit(pulsing_hit)
 
-    //val pulsing_hit = new BladeTrail(this, getTarget, weaponStrength)
-    //getPlayer.addPulsingHit(pulsing_hit)
   }
 
   def rush(cast_time: Double): Unit = {

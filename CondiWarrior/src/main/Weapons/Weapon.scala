@@ -102,11 +102,11 @@ class Weapon(weapon_strength_midpoint: Double, variance: Double) {
     }
   }
 
-  private def bleedingDuration(): Double = {
-    burningDuration();
+  private def bleedingDuration: Double = {
+    burningDuration;
   }
 
-  private def burningDuration(): Double = {
+  private def burningDuration: Double = {
     getPlayer.getConditionDuration + 0.33
   }
 

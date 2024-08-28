@@ -31,13 +31,13 @@ class Longbow extends Weapon(1050, 84){
   //-----------------------------------
 
   def dual_shot(cast_time: Double): Unit = {
-    //var CONDITIONS = createBurning(dual_shot_burning_dur, dual_shot_burning_amount)
-    var CONDITIONS = List[Condition]()
+    //val CONDITIONS = createBurning(dual_shot_burning_dur, dual_shot_burning_amount)
+    val CONDITIONS = List[Condition]()
     tick_time(cast_time)
 
     val damage = new Direct_Hit(this, dual_shot_coeff).hit(dual_shot_attacks)
     getTarget.deal_strike_damage(damage)
-    
+
     for(i <- 1 to dual_shot_attacks){
       projectile_finisher(dual_shot_finisher_chance)
     }
