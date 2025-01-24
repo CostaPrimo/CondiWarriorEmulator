@@ -2,8 +2,9 @@ package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.Direct_Hit
 import CondiWarrior.src.main.Hits.pulsing_hits.{Maiming_Spear, Spearmarshals_Support}
+import CondiWarrior.src.main.Util.Sigil
 
-class Spear extends Weapon(0, 0){
+class Spear(sigils: List[Sigil]) extends Weapon(1000, 100, sigils){
   //CONFIG ----------------------------
   private val mighty_throw_coeff = 1.2
   private val mighty_throw_secondary_coef = 0.9

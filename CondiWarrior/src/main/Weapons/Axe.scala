@@ -1,8 +1,9 @@
 package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.Direct_Hit
+import CondiWarrior.src.main.Util.Sigil
 
-class Axe extends Weapon(1000, 100) {
+class Axe(sigils: List[Sigil]) extends Weapon(1000, 100, sigils) {
   //CONFIG ----------------------------
   private val chop_coef = 0.7
   private val chop_attacks = 1

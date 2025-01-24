@@ -2,8 +2,9 @@ package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.pulsing_hits.Flames_Of_War
 import CondiWarrior.src.main.Hits.Direct_Hit
+import CondiWarrior.src.main.Util.Sigil
 
-class Torch extends Weapon(900, 72){
+class Torch(sigils: List[Sigil]) extends Weapon(900, 72, sigils){
 
   //CONFIG ----------------------------
   val blaze_breaker_coeff = 0.4

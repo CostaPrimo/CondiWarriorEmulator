@@ -1,6 +1,6 @@
 package CondiWarrior.src.main.Conditions
 
-class Condition(base: Double, coefficient: Double, duration: Double) {
+abstract class Condition(base: Double, coefficient: Double, duration: Double) {
   private var internal_duration = duration
 
   /**

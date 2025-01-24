@@ -1,10 +1,11 @@
 package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Entities.{CondiWarrior, Target}
-import CondiWarrior.src.main.Hits.Direct_Hit
-import CondiWarrior.src.main.Conditions.{Bleeding, Burning, Condition, Torment}
+import _root_.CondiWarrior.src.main.Hits.Direct_Hit
+import _root_.CondiWarrior.src.main.Conditions.{Bleeding, Burning, Condition, Torment}
+import _root_.CondiWarrior.src.main.Util.Sigil
 
-class Weapon(weapon_strength_midpoint: Double, variance: Double) {
+class Weapon(weapon_strength_midpoint: Double, variance: Double, sigils: List[Sigil]) {
   private var player: CondiWarrior = null
   private var target: Target = null
 

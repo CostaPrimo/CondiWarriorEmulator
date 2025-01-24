@@ -3,8 +3,9 @@ package CondiWarrior.src.main.Weapons
 import CondiWarrior.src.main.Conditions.Condition
 import CondiWarrior.src.main.Hits.pulsing_hits.Scorched_Earth
 import CondiWarrior.src.main.Hits.Direct_Hit
+import CondiWarrior.src.main.Util.Sigil
 
-class Longbow extends Weapon(1050, 84){
+class Longbow(sigils: List[Sigil]) extends Weapon(1050, 84, sigils){
 
   //CONFIG ----------------------------
   private val dual_shot_coeff = 0.525

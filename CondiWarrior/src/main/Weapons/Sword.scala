@@ -2,8 +2,9 @@ package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.Direct_Hit
 import CondiWarrior.src.main.Hits.pulsing_hits.Impale
+import CondiWarrior.src.main.Util.Sigil
 
-class Sword extends Weapon (1000, 50){
+class Sword(sigils: List[Sigil]) extends Weapon (1000, 50, sigils){
 
   //CONFIG ----------------------------
   private val sever_artery_bleeding_dur = 6.0

@@ -1,8 +1,9 @@
 package CondiWarrior.src.main.Weapons
 
 import CondiWarrior.src.main.Hits.Direct_Hit
+import CondiWarrior.src.main.Util.Sigil
 
-class Dagger extends Weapon (1000, 30){
+class Dagger(sigils: List[Sigil]) extends Weapon (1000, 30, sigils){
 
   //CONFIG ----------------------------
   private val precise_cut_coeff = 0.6

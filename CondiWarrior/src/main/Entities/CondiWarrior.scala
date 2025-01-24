@@ -144,7 +144,7 @@ class CondiWarrior(precision: Int, ferocity: Int, conditionDamage: Int, expertis
     }
   }
 
-  def tick_sigils(time: Double): Unit = {
+  private def tick_sigils(time: Double): Unit = {
     if (earth_cd > time) {
       earth_cd -= time
     } else {
